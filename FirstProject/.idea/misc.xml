@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.13 (FirstProject)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.13 (FirstProject)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Remote Python 3.10.12 (sftp://root@1.94.100.166:22/home/FirstProjectLinux/.venv/bin/python)" project-jdk-type="Python SDK" />
 </project>

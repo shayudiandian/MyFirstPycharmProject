@@ -134,18 +134,19 @@ PyCharm 是一个非常适合 Python 开发者的 IDE，无论是初学者还是
 
 ![image-20241103235728746](assets/image-20241103235728746.png)
 
-光标闪烁出通过以下命令安装它们
+在光标闪烁处通过以下命令安装它们
 
 ```shell
 pip install numpy
 pip install matplotlib
 ```
 
-注意，可以切换成国内的清华镜像源（也有其他的镜像源），速度更快，不切换可能速度非常墨迹，半天下不动
+⚠️注意，可以切换成国内的清华镜像源（也有其他的镜像源），速度更快，不切换可能速度非常墨迹，半天下不动
 
 ```shell
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple numpy
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple matplotlib
+# 下载任何包都可以在前面加上 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
 或者一起安装
@@ -195,9 +196,112 @@ plt.show()
 
 成功
 
-
+如果你感兴趣，可以再创建一个项目，你会深刻感受到，当我们开始着手一个新的Python项目时，通常会涉及到使用多个第三方库，每个库可能需要特定的版本或依赖关系。同时，不同项目可能需要不同的Python版本。这时，虚拟环境就发挥了关键作用，我们让每个项目都单独使用各自的虚拟环境，这样可以更好地隔离项目之间的库，并避免全局Python环境的混乱。在虚拟环境中，你可以轻松地更新和卸载库，而不会影响其他项目。
 
 
 
 ## Linux远程项目开发
 
+大多数情况，假设要把本地的项目（以之前 FirstProject 为例）放到Linux服务器上运行（例如 AI 模型训练等等）
+
+你可以先在Linux适当位置创建一个文件夹管理你的项目，比如我创建了 /home/FirstProjectLinux（记住，等会要用）
+
+首先，Linux服务器上需要安装 Python
+
+更新软件包列表
+
+```shell
+sudo apt update
+sudo apt upgrade
+```
+
+安装 Python 和 pip（一定要安装 pip，否则无法用pip安装其他的包）
+
+```shell
+sudo apt install python3
+sudo apt install python3-pip
+```
+
+查看Python版本，我这里是 Python 3.10.12
+
+```shell
+python3 --version 
+```
+
+查看 Python 位置，我这里是 /usr/bin/python3，等会要用
+
+```c++
+which python3
+```
+
+
+
+打开FirstProject项目
+
+点击右下角解释器——添加新的解释器——SSH...
+
+<img src="assets/image-20241104103304482.png" alt="image-20241104103304482" style="zoom:50%;" />
+
+填写自己Linux服务器的主机和用户名和端口号（没有让管理员帮你创建一个账户）
+
+<img src="assets/image-20241104111325359.png" alt="image-20241104111325359" style="zoom:50%;" />
+
+下一步，输入密码，内省完成，再下一步
+
+<img src="assets/image-20241104111507290.png" alt="image-20241104111507290" style="zoom:50%;" />
+
+按提示填写，最后创建
+
+<img src="assets/image-20241104112559813.png" alt="image-20241104112559813" style="zoom:50%;" />
+
+注意，这个.venv文件是Linux上隐藏文件，ls命令看不到（xftp也看不到），你可以改成 venv（更好）
+
+点击右下角解释器，发现解释器变为服务器上的了
+
+![image-20241104112718126](assets/image-20241104112718126.png)
+
+目前/home/FirstProjectLinux下还没文件，我们没有同步文件夹，点击左上角主菜单——工具——部署——上传到...，弹出选择你要上传到的服务器，选择自己的即可
+
+![image-20241104113002453](assets/image-20241104113002453.png)
+
+由于我们刚刚已经设置过映射关系，所以会上传到/home/FirstProjectLinux文件夹，如果不放心，可以查看部署——配置...，或者你可以重新设置映射位置
+
+![image-20241104113232605](assets/image-20241104113232605.png)
+
+上传完成后，我们可以在PyCharm打开Linux终端
+
+![image-20241104113613397](assets/image-20241104113613397.png)
+
+```shell
+cd /home/FirstProjectLinux
+ls
+```
+
+可以看到出现 first.py 文件，说明成功上传
+
+发现，first.py 又缺少包了，因为尽管本地虚拟环境有，但远程Linux服务器没有下载
+
+![image-20241104113809461](assets/image-20241104113809461.png)
+
+使用PyCharm打开Linux终端（注意不是本地终端），输入命令
+
+首先激活虚拟环境（非常重要）
+
+```shell
+cd /home/FirstProjectLinux
+source .venv/bin/activate
+```
+
+可以看到命令提示前面多了(.venv) ，说明进入了虚拟环境
+
+再安装
+
+```shell
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple numpy matplotlib
+```
+
+等待更新解释器，如果不自动的话，手动点击右下角重新选择一下解释器，发现波浪线消失，安装成功
+
+运行，成功
+
+我们要修改py文件或者新建py文件（或其他文件），都是在某个py文件部署上传即可，远程py文件就更新了，或者你可以选择自动上传。

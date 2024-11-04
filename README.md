@@ -20,7 +20,7 @@
 
 <img src="assets/image-20241103220724712.png" alt="image-20241103220724712"  />
 
-双击下载下来的 python-3.13.0-amd64.exe
+双击下载下来的 python-3.13.0-amd64.exe（3.13是当前最新的，更推荐3.10版本，兼容性强）
 
 <img src="assets/image-20241103221132709.png" alt="image-20241103221132709" style="zoom:50%;" />
 
